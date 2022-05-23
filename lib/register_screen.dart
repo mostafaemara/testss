@@ -37,16 +37,18 @@ class _register_screenState extends State<register_screen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsetsDirectional.only(bottom: 20.0,top: 20,),
-                  child: Text(
-                    'Register',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  padding: const EdgeInsetsDirectional.only(bottom: 10.0,top: 7,),
 
-                  ),
+
                 ),
+                Image(
+                  image: AssetImage('assets/images/work.png'),
+                  height: 175,
+                  width: 175,
+
+                ),
+
+
                 SizedBox(height: 10,),
                 TextFormField(
                   controller: patientController,
@@ -86,7 +88,7 @@ class _register_screenState extends State<register_screen> {
 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => login_screen()));
 
                   },
-                    child: Text('Done',
+                    child: Text('Register',
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -98,12 +100,7 @@ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => login
 
                   ),
                 ),
-                Image(
-                  image: AssetImage('assets/images/logo.png'),
-                  height: 200,
-                  width: 200,
 
-                ),
               ],
             ),
           ),

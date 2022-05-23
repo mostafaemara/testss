@@ -82,7 +82,7 @@ class table_screen extends StatelessWidget {
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
-                                child: Column(children:[Text('-2.1',style: TextStyle(fontSize: 20),)]),
+                                child: Column(children:[Text('-2.3',style: TextStyle(fontSize: 20),)]),
                               ),
                             ]
                         ),
@@ -94,7 +94,7 @@ class table_screen extends StatelessWidget {
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
-                                child: Column(children:[Text('-2.6',style: TextStyle(fontSize: 20),)]),
+                                child: Column(children:[Text('-1.3',style: TextStyle(fontSize: 20),)]),
                               ),
                             ]
                         ),
@@ -106,12 +106,12 @@ class table_screen extends StatelessWidget {
                 ),
 
                 Text('"You should visit your doctor"',style: TextStyle(
-                  fontSize: 25,
+                  fontSize: 15,
                 ),),
                 Padding(
                   padding: const EdgeInsetsDirectional.only(top: 10,bottom: 10),
                   child: Image(
-                    image: AssetImage('assets/images/logo.png'),
+                    image: AssetImage('assets/images/work.png'),
                     height: 200,
                     width: 200,
 

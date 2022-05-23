@@ -1,27 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:untitled12/connection.dart';
 import 'package:untitled12/login_screen.dart';
-import 'package:untitled12/table_screen.dart';
 
-
-void main(){
+void main() {
   runApp(MyApp());
 }
-class MyApp extends StatelessWidget{
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Flutter Demo',
       theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          backwardsCompatibility: false,
-          systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: Colors.brown.shade200,
-            statusBarIconBrightness:Brightness.dark,
-          ),
-        ),
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      debugShowCheckedModeBanner: false,
-      home: login_screen(),
+      home: FutureBuilder(
+        future: FlutterBluetoothSerial.instance.requestEnable(),
+        builder: (context, future) {
+          if (future.connectionState == ConnectionState.waiting) {
+            return Scaffold(
+              body: Container(
+                height: double.infinity,
+                child: Center(
+                  child: Icon(
+                    Icons.bluetooth_disabled,
+                    size: 200.0,
+                    color: Colors.blue,
+                  ),
+                ),
+              ),
+            );
+          } else {
+            return Home();
+          }
+        },
+        // child: MyHomePage(title: 'Flutter Demo Home Page'),
+      ),
     );
+  }
+}
+
+class Home extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text('Connection'),
+            backwardsCompatibility: false,
+          ),
+          body: SelectBondedDevicePage(
+            onCahtPage: (device1) {
+              BluetoothDevice device = device1;
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return login_screen(server: device);
+                  },
+                ),
+              );
+            },
+          ),
+        ));
   }
 }

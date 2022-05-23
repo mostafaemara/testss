@@ -37,9 +37,15 @@ class _login_screenState extends State<login_screen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsetsDirectional.only(bottom: 20.0,top: 20,),
+                  padding: const EdgeInsetsDirectional.only(bottom: 10.0,top: 7,),
                 
                 ) ,
+                Image(
+                  image: AssetImage('assets/images/work.png'),
+                  height: 175,
+                  width: 175,
+
+                ),
                 SizedBox(
                   height: 5,
                 ),
@@ -53,7 +59,7 @@ class _login_screenState extends State<login_screen> {
                     border: OutlineInputBorder(),
                   ),
     validator: (value){
-    if(value!.isEmpty ||!RegExp(r'^[a-z A-Z]+$').hasMatch(value!)){
+    if(value!.isEmpty ||!RegExp(r'^[a-z A-Z]+$').hasMatch(value)){
     return "enter correct patient name";
     }else{
     return null;
@@ -74,7 +80,7 @@ class _login_screenState extends State<login_screen> {
 
                   ),
                     validator: (value) {
-      if (value!.isEmpty || !RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+      if (value!.isEmpty || !RegExp(r'^[a-z A-Z]+$').hasMatch(value)) {
         return "enter correct Doctor name";
       } else {
         return null;
@@ -128,12 +134,7 @@ class _login_screenState extends State<login_screen> {
                   ],
                 ),
 
-                Image(
-                  image: AssetImage('assets/images/logo.png'),
-                  height: 300,
-                  width: 300,
 
-                ),
               ],
             ),
           ),
