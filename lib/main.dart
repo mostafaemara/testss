@@ -1,7 +1,11 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:untitled12/connection.dart';
-import 'package:untitled12/login_screen.dart';
+
+import 'device.dart';
 
 void main() {
   runApp(MyApp());
@@ -48,23 +52,51 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          appBar: AppBar(
-            title: Text('Connection'),
-            backwardsCompatibility: false,
-          ),
-          body: SelectBondedDevicePage(
-            onCahtPage: (device1) {
-              BluetoothDevice device = device1;
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return login_screen(server: device);
+      appBar: AppBar(
+        title: Text('Connection'),
+      ),
+      body: SelectBondedDevicePage(
+        onCahtPage: (d) {
+          final device = d;
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                //      return LoginScreen(server: device);
+                return BluetoothDeviceListEntry(
+                  device: device,
+                  onTap: () {
+                    connectToDevice(device.address);
                   },
-                ),
-              );
-            },
-          ),
-        ));
+                );
+              },
+            ),
+          );
+        },
+      ),
+    ));
+  }
+
+  void connectToDevice(String address) async {
+    // Some simplest connection :F
+    try {
+      BluetoothConnection connection =
+          await BluetoothConnection.toAddress(address);
+      print('Connected to the device');
+
+      connection.input?.listen((Uint8List data) {
+        print('Data incoming: ${ascii.decode(data)}');
+        connection.output.add(data); // Sending data
+
+        if (ascii.decode(data).contains('!')) {
+          connection.finish(); // Closing connection
+          print('Disconnecting by local host');
+        }
+      }).onDone(() {
+        print('Disconnected by remote request');
+      });
+    } catch (exception) {
+      print('Cannot connect, exception occured');
+    }
   }
 }
