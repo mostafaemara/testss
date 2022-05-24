@@ -63,11 +63,13 @@ class Home extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) {
                 //      return LoginScreen(server: device);
-                return BluetoothDeviceListEntry(
-                  device: device,
-                  onTap: () {
-                    connectToDevice(device.address);
-                  },
+                return Scaffold(
+                  body: BluetoothDeviceListEntry(
+                    device: device,
+                    onTap: () {
+                      connectToDevice(device.address);
+                    },
+                  ),
                 );
               },
             ),
