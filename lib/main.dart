@@ -1,11 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:untitled12/connection.dart';
-
-import 'device.dart';
 
 void main() {
   runApp(MyApp());
@@ -57,23 +56,7 @@ class Home extends StatelessWidget {
       ),
       body: SelectBondedDevicePage(
         onCahtPage: (d) {
-          final device = d;
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                //      return LoginScreen(server: device);
-                return Scaffold(
-                  body: BluetoothDeviceListEntry(
-                    device: device,
-                    onTap: () {
-                      connectToDevice(device.address);
-                    },
-                  ),
-                );
-              },
-            ),
-          );
+          connectToDevice(d.address);
         },
       ),
     ));
@@ -84,21 +67,21 @@ class Home extends StatelessWidget {
     try {
       BluetoothConnection connection =
           await BluetoothConnection.toAddress(address);
-      print('Connected to the device');
+      log('Connected to the device');
 
       connection.input?.listen((Uint8List data) {
-        print('Data incoming: ${ascii.decode(data)}');
+        log('Data incoming: ${ascii.decode(data)}');
         connection.output.add(data); // Sending data
 
         if (ascii.decode(data).contains('!')) {
           connection.finish(); // Closing connection
-          print('Disconnecting by local host');
+          log('Disconnecting by local host');
         }
       }).onDone(() {
-        print('Disconnected by remote request');
+        log('Disconnected by remote request');
       });
     } catch (exception) {
-      print('Cannot connect, exception occured');
+      log('Cannot connect, exception occured ${exception.toString()}');
     }
   }
 }
